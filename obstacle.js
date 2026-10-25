@@ -26,7 +26,7 @@ function generateRandomNumber(min, max) {
 
 function updateSize(obstacle) {
     obstacle.width = generateRandomNumber(20, 100);
-    obstacle.height = generateRandomNumber(150, r.GetScreenHeight() - 100);
+    obstacle.height = generateRandomNumber(150, r.GetScreenHeight() - 150);
 }
 
 function update(obstacle) {

@@ -1,29 +1,12 @@
 const r = require("raylib");
 const obstacle = require("./obstacle.js");
 const ball = require("./ball.js");
+const menuWindow = require("./menuWindow.js");
 
 let obstacle1;
 let obstacle2;
 
 let score = 0;
-
-function drawMenuWindow() {
-    r.BeginDrawing();
-    r.ClearBackground(r.WHITE);
-
-    r.DrawText(`Score : ${score}`, 300, 400, 80, r.YELLOW);
-    r.DrawText(`Press Enter for Restart`, 400, 500, 20, r.GRAY);
-    r.DrawText(`Press Q for Exit`, 450, 900, 20, r.RED);
-
-    if (r.IsKeyPressed(r.KEY_Q)) {
-        teardown();
-        teardown();
-    }
-    if (r.IsKeyPressed(r.KEY_ENTER)) return resetGame();
-
-    r.EndDrawing();
-    drawMenuWindow();
-}
 
 function resetGame() {
     initializeObstacle(r.GetScreenWidth(), r.GetScreenHeight());
@@ -43,9 +26,7 @@ function update() {
 
     updateScore();
 
-    if (ball.ball.isCollided) {
-        drawMenuWindow();
-    }
+    if (ball.ball.isCollided) menuWindow.draw(score, resetGame);
 }
 
 function draw() {
@@ -64,17 +45,17 @@ function initializeScore() {
     score = 0;
 }
 
-function initializeObstacle(width, height) {
-    obstacle1 = obstacle.initialize(width, 0, 30, 500);
-    obstacle2 = obstacle.initialize(width * (3 / 2), 600, 80, height);
+function initializeObstacle(xCoordinate, y) {
+    obstacle1 = obstacle.initialize(xCoordinate, 0, 30, 500);
+    obstacle2 = obstacle.initialize(xCoordinate * (3 / 2), 600, 80, y);
 }
 
 function setup(width, height) {
-    const FPS = 60;
+    const fps = 60;
 
     r.SetTraceLogLevel(r.LOG_NONE);
     r.InitWindow(width, height, "flappy_ball");
-    r.SetTargetFPS(FPS);
+    r.SetTargetFPS(fps);
 
     initializeObstacle(width, height);
 }
